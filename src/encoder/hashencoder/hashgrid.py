@@ -3,14 +3,24 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.autograd import Function
-from torch.cuda.amp import custom_bwd, custom_fwd
+
+# torch.cuda.amp.custom_fwd/custom_bwd were deprecated in PyTorch 2.4 and moved to
+# torch.amp with a required device_type argument.
+try:
+    from torch.amp import custom_fwd as _custom_fwd_factory
+    from torch.amp import custom_bwd as _custom_bwd_factory
+    custom_fwd = _custom_fwd_factory(device_type='cuda')
+    custom_bwd = _custom_bwd_factory(device_type='cuda')
+except (ImportError, TypeError):
+    # Fallback for PyTorch < 2.4
+    from torch.cuda.amp import custom_bwd, custom_fwd  # type: ignore[no-redef]
 
 from .backend import _backend
 
 
 class _hash_encode(Function):
     @staticmethod
-    @custom_fwd(cast_inputs=torch.half)
+    @custom_fwd
     def forward(ctx, inputs, embeddings, offsets, base_resolution, calc_grad_inputs=False):
         inputs = inputs.contiguous()
         embeddings = embeddings.contiguous()

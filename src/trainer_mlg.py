@@ -80,7 +80,7 @@ class Trainer:
         self.epoch_start = 0
         if cfg["train"]["resume"] and osp.exists(self.ckptdir):
             print(f"Load checkpoints from {self.ckptdir}.")
-            ckpt = torch.load(self.ckptdir)
+            ckpt = torch.load(self.ckptdir, weights_only=False)
             self.epoch_start = ckpt["epoch"] + 1
             self.optimizer.load_state_dict(ckpt["optimizer"])
             self.global_step = self.epoch_start * len(self.train_dloader)

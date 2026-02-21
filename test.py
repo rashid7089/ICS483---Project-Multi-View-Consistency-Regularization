@@ -82,7 +82,7 @@ def main():
 
     # Load weights
     print(f"Loading weights from {args.weights}...")
-    ckpt = torch.load(args.weights, map_location=device)
+    ckpt = torch.load(args.weights, map_location=device, weights_only=False)
     net.load_state_dict(ckpt["network"])
     net.eval()
 
