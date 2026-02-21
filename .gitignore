@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# CUDA compilation artifacts
+*.o
+*.a
+*.cu.o
+_hash_encoder*.so
+
+# Data and logs (too large for git)
+data/
+logs/
+output/
+pretrained/
+
+# Python virtual environments
+.venv/
+env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
